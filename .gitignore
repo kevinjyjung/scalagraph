@@ -1,2 +1,8 @@
 *.class
 *.log
+
+# intellij
+.idea/
+
+# target
+target/
