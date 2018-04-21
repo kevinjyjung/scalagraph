@@ -1,33 +1,23 @@
 {
   "graph": "abcd",
-  "target": ["4", "5", "6"],
-  "ops": {
-    "1": {
-      "type": "VALUE",
-      "args": 10
-    },
-    "2": {
-      "type": "VALUE",
-      "args": 2
-    },
-    "3": {
-      "type": "VALUE",
-      "args": 4
-    },
-    "4": {
+  "target": ["1", "2", "3"],
+  "ops": [
+    {
+      "id": "1",
       "type": "NEXT",
-      "args": ["1"]
+      "args": [1]
     },
-    "5": {
+    {
+      "id": "2",
       "type": "SAMPLE",
-      "args": ["4", "2"]
+      "args": [2],
+      "input": "1"
     },
-    "6": {
+    {
+      "id": "3",
       "type": "SAMPLE",
-      "args": [
-        "5",
-        "3"
-      ]
+      "args": [4],
+      "input": "2"
     }
-  }
+  ]
 }

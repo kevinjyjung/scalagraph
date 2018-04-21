@@ -2,7 +2,7 @@ package example
 
 import data.{PairRDD, RDD}
 import graph.{FeatMat, Node}
-import interpreter.{NextOp, Op, SamplerOp}
+import interpreter.{NextOp, Op, SamplerOp, parser}
 
 object test {
 
@@ -29,11 +29,7 @@ object test {
     def main(args: Array[String]): Unit = {
         def sampler: (String, Int, Op) => SamplerOp = SamplerOp(adjRDD)(_,_,_)
         def next: (String, Int) => NextOp = NextOp()(_,_)
-        val n1 = next("4", 1)
-        val s1 = sampler("5", 2, n1)
-        val s2 = sampler("6", 4, s1)
-
-        val outs = Seq(n1, s1, s2)
+        val outs = parser.parse(sampler, next)(Option.empty)
         val nodes: Seq[RDD[Node]] = outs map (_.eval)
 
         printBatch(nodes.map(graph.op.feats(featRDD, _)))
