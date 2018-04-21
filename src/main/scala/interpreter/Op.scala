@@ -1,4 +1,4 @@
-package parser
+package interpreter
 
 import data.{RDD, SingleRDD}
 import graph._

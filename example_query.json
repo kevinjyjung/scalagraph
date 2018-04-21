@@ -1,47 +1,33 @@
-;; get batch
-
-batch_size = 100
-num_samples = (25 10)
-
-batch = (NEXT batch_size)
-(defn get_batch [ids ns acc]
-    (if
-        (is_empty ns)
-        (acc)
-        (get_batch (NS ids (head ns)) (tail ns) (+ acc (FEATS ids)))))
-
-GRAPH abcd
-(get_batch batch num_samples ())
-
-
-;; features of 10 sampled neighbours (simpler)
-
-batch_size = 100
-num_samples = 10
-
-GRAPH abcd
-(FEATS (NS (NEXT batch_size) 10))
-
-
-# in python
-
-next(batch_size: int): scg.Nodes
-ns(ids: scg.Nodes, n: int): scg.Nodes
-feats(ids: scg.Nodes): scg.Features
-
-
-# first example
-
-batch_size = 100
-num_samples = [25, 10]
-
-batch = next(batch_size)
-def get_batch(ids, num_samples, acc):
-    acc if len(num_samples) == 0 else get_batch(ns(ids, num_samples[0]), num_samples[1:], acc + feats(ids))
-
-scg_feats = get_batch(batch, num_samples, [])
-with ScalaGraph('abcd') as g:
-    feats = g.run(scg_feats)
-
-
-
+{
+  "graph": "abcd",
+  "target": ["4", "5", "6"],
+  "ops": {
+    "1": {
+      "type": "VALUE",
+      "args": 10
+    },
+    "2": {
+      "type": "VALUE",
+      "args": 2
+    },
+    "3": {
+      "type": "VALUE",
+      "args": 4
+    },
+    "4": {
+      "type": "NEXT",
+      "args": ["1"]
+    },
+    "5": {
+      "type": "SAMPLE",
+      "args": ["4", "2"]
+    },
+    "6": {
+      "type": "SAMPLE",
+      "args": [
+        "5",
+        "3"
+      ]
+    }
+  }
+}
