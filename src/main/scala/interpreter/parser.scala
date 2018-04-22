@@ -4,32 +4,6 @@ import play.api.libs.json._
 
 object parser {
 
-    val example_json: JsValue = Json.parse("""
-{
-  "graph": "abcd",
-  "target": ["1", "2", "3"],
-  "ops": [
-    {
-      "id": "1",
-      "op": "NEXT",
-      "args": [1]
-    },
-    {
-      "id": "2",
-      "op": "SAMPLE",
-      "args": [2],
-      "input": "1"
-    },
-    {
-      "id": "3",
-      "op": "SAMPLE",
-      "args": [4],
-      "input": "2"
-    }
-  ]
-}
-""")
-
     case class OpConstructor(id: String, op: String, args: Seq[Int], input: Option[String])
     case class OpGraph(graph: String, target: Seq[String], ops: Seq[OpConstructor])
 
@@ -52,10 +26,10 @@ object parser {
         targetIter(targets, Map())
     }
 
-    def parse(sampler: (String, Int, Op) => SamplerOp, next: (String, Int) => NextOp)(json: Option[String]): Seq[Op] = {
+    def parse(sampler: (String, Int, Op) => SamplerOp, next: (String, Int) => NextOp)(json: String): Seq[Op] = {
         implicit val opConstructorReads: Reads[OpConstructor] = Json.reads[OpConstructor]
         implicit val opGraphReads: Reads[OpGraph] = Json.reads[OpGraph]
-        val opGraph = opGraphReads.reads(if (json.isEmpty) example_json else Json.parse(json.get)).get
+        val opGraph = opGraphReads.reads(Json.parse(json)).get
         val opsMap = buildMap(opGraph.target, opGraph.ops)(sampler, next)
         opGraph.target.map(opsMap)
     }

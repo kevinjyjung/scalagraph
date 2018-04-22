@@ -4,18 +4,18 @@
   "ops": [
     {
       "id": "1",
-      "type": "NEXT",
+      "op": "NEXT",
       "args": [1]
     },
     {
       "id": "2",
-      "type": "SAMPLE",
+      "op": "SAMPLE",
       "args": [2],
       "input": "1"
     },
     {
       "id": "3",
-      "type": "SAMPLE",
+      "op": "SAMPLE",
       "args": [4],
       "input": "2"
     }
