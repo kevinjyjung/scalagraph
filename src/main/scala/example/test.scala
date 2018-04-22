@@ -34,7 +34,7 @@ object test {
     def main(args: Array[String]): Unit = {
         def sampler: (String, Int, Op) => SamplerOp = SamplerOp(adjRDD)(_,_,_)
         def next: (String, Int) => NextOp = NextOp()(_,_)
-        val outs = parser.parse(sampler, next)(readQuery("example_query.json"))
+        val outs = parser.parse(sampler, next)(readQuery("example_query_2.json"))
         val nodes: Seq[RDD[Node]] = outs map (_.eval)
 
         printBatch(nodes.map(graph.op.feats(featRDD, _)))

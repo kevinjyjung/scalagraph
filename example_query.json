@@ -11,13 +11,13 @@
       "id": "2",
       "op": "SAMPLE",
       "args": [2],
-      "input": "1"
+      "inp": "1"
     },
     {
       "id": "3",
       "op": "SAMPLE",
       "args": [4],
-      "input": "2"
+      "inp": "2"
     }
   ]
 }

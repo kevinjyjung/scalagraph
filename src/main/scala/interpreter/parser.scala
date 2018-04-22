@@ -4,7 +4,7 @@ import play.api.libs.json._
 
 object parser {
 
-    case class OpConstructor(id: String, op: String, args: Seq[Int], input: Option[String])
+    case class OpConstructor(id: String, op: String, args: Seq[Int], inp: Option[String])
     case class OpGraph(graph: String, target: Seq[String], ops: Seq[OpConstructor])
 
     def buildMap(targets: Seq[String], ops: Seq[OpConstructor])
@@ -12,14 +12,14 @@ object parser {
         def addToRes(opc: OpConstructor, res: Map[String, Op]): Map[String, Op] =
             res + (opc.id -> (opc.op match {
                 case "NEXT" => next(opc.id, opc.args.head)
-                case "SAMPLE" => sampler(opc.id, opc.args.head, res(opc.input.get))
+                case "SAMPLE" => sampler(opc.id, opc.args.head, res(opc.inp.get))
             }))
         def opIter(target: Option[String], res: Map[String, Op]): Map[String, Op] =
             if (target.isEmpty) res
             else if (res.exists(_._1 == target.get)) res
             else {
                 val targetOpc = ops.find(_.id == target.get).get
-                addToRes(targetOpc, opIter(targetOpc.input, res))
+                addToRes(targetOpc, opIter(targetOpc.inp, res))
             }
         def targetIter(targets: Seq[String], res: Map[String, Op]): Map[String, Op] =
             if (targets.isEmpty) res else targetIter(targets.tail, opIter(Option(targets.head), res))
