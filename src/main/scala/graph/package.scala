@@ -1,5 +1,5 @@
 package object graph {
-    type FeatVec = Seq[Float]
+    type FeatVec = Seq[Double]
     type FeatMat = Seq[FeatVec]
     type Id = Int
 
